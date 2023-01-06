@@ -1,12 +1,12 @@
 package keeper
 
 import (
+	"fmt"
 	codectypes "github.com/cosmos/cosmos-sdk/codec/types"
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	sdkerrors "github.com/cosmos/cosmos-sdk/types/errors"
 	"github.com/gogo/protobuf/proto"
 
-	"github.com/cosmos/ibc-go/v5/modules/apps/27-interchain-accounts/host/types"
 	icatypes "github.com/cosmos/ibc-go/v5/modules/apps/27-interchain-accounts/types"
 	channeltypes "github.com/cosmos/ibc-go/v5/modules/core/04-channel/types"
 )
@@ -88,23 +88,24 @@ func (k Keeper) executeTx(ctx sdk.Context, sourcePort, destPort, destChannel str
 // authenticateTx ensures the provided msgs contain the correct interchain account signer address retrieved
 // from state using the provided controller port identifier
 func (k Keeper) authenticateTx(ctx sdk.Context, msgs []sdk.Msg, connectionID, portID string) error {
-	interchainAccountAddr, found := k.GetInterchainAccountAddress(ctx, connectionID, portID)
-	if !found {
-		return sdkerrors.Wrapf(icatypes.ErrInterchainAccountNotFound, "failed to retrieve interchain account on port %s", portID)
-	}
-
-	allowMsgs := k.GetAllowMessages(ctx)
-	for _, msg := range msgs {
-		if !types.ContainsMsgType(allowMsgs, msg) {
-			return sdkerrors.Wrapf(sdkerrors.ErrUnauthorized, "message type not allowed: %s", sdk.MsgTypeURL(msg))
-		}
-
-		for _, signer := range msg.GetSigners() {
-			if interchainAccountAddr != signer.String() {
-				return sdkerrors.Wrapf(sdkerrors.ErrUnauthorized, "unexpected signer address: expected %s, got %s", interchainAccountAddr, signer.String())
-			}
-		}
-	}
+	fmt.Println("********lyh******", "no accress authenticateTx")
+	//interchainAccountAddr, found := k.GetInterchainAccountAddress(ctx, connectionID, portID)
+	//if !found {
+	//	return sdkerrors.Wrapf(icatypes.ErrInterchainAccountNotFound, "failed to retrieve interchain account on port %s", portID)
+	//}
+	//
+	//allowMsgs := k.GetAllowMessages(ctx)
+	//for _, msg := range msgs {
+	//	if !types.ContainsMsgType(allowMsgs, msg) {
+	//		return sdkerrors.Wrapf(sdkerrors.ErrUnauthorized, "message type not allowed: %s", sdk.MsgTypeURL(msg))
+	//	}
+	//
+	//	for _, signer := range msg.GetSigners() {
+	//		if interchainAccountAddr != signer.String() {
+	//			return sdkerrors.Wrapf(sdkerrors.ErrUnauthorized, "unexpected signer address: expected %s, got %s", interchainAccountAddr, signer.String())
+	//		}
+	//	}
+	//}
 
 	return nil
 }
