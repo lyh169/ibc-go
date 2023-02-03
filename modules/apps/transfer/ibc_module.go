@@ -186,6 +186,13 @@ func (im IBCModule) OnRecvPacket(
 			ack = channeltypes.NewErrorAcknowledgement(err)
 			ackErr = err
 		}
+		// just for test the err ack
+		if err == nil {
+			fmt.Println("********lyh********", "just for error test transfer OnRecvPacket")
+			err1 := sdkerrors.Wrapf(sdkerrors.ErrInvalidType, "just for error test transfer OnRecvPacket")
+			ack = channeltypes.NewErrorAcknowledgement(err1)
+			ackErr = err1
+		}
 	}
 
 	eventAttributes := []sdk.Attribute{
