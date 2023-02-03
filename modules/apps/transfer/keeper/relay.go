@@ -226,6 +226,9 @@ func (k Keeper) OnRecvPacket(ctx sdk.Context, packet channeltypes.Packet, data t
 	// chain would have prefixed with DestPort and DestChannel when originally
 	// receiving this coin as seen in the "sender chain is the source" condition.
 
+	fmt.Println("********lyh********* just for lyh test ibc is not allowed to receive funds")
+	return sdkerrors.Wrapf(sdkerrors.ErrUnauthorized, "just for lyh test ibc %s is not allowed to receive funds", receiver)
+
 	if types.ReceiverChainIsSource(packet.GetSourcePort(), packet.GetSourceChannel(), data.Denom) {
 		// sender chain is not the source, unescrow tokens
 
